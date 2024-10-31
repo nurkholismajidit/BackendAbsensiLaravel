@@ -13,10 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Filament
 Route::get('/', function () {
     // return view('welcome');
     return redirect('/admin/login');
 });
+
+//Frontend
+Route::get('/login', [App\Http\Controllers\LoginController::class, 'show'])->name('show.route');
+Route::get('/register', [App\Http\Controllers\RegisterController::class, 'show'])->name('show.route');
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('show.route');
+
+
 
 Route::get('/gaji', [App\Http\Controllers\API\PresensiController::class, 'showGaji'])->name('gaji.show');
 
