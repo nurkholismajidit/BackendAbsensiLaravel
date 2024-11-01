@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +27,20 @@ Route::get('/', function () {
 Route::get('/login', [App\Http\Controllers\LoginController::class, 'show'])->name('show.route');
 Route::get('/register', [App\Http\Controllers\RegisterController::class, 'show'])->name('show.route');
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('show.route');
+// Post Login
+Route::post('/login', [App\Http\Controllers\LoginController::class, 'login'])->name('login');
+
+//User
+Route::resource('users', UserController::class);
+//register
+Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register'])->name('register');
+//profile
+Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+//logout
+Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
+
 
 
 

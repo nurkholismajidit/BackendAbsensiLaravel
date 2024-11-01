@@ -157,18 +157,37 @@
         <div class="sidebar">
             <i class="fas fa-user"></i>
             <p>Profil</p>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    style="background-color: transparent; border: none; color: #2c3e75; cursor: pointer; font-size: 18px;">Logout</button>
+            </form>
         </div>
         <div class="content">
             <h2>Profil Saya</h2>
             <p>Kelola informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun</p>
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Masukkan Username Anda">
-            <label for="nama">Nama</label>
-            <input type="text" id="nama">
-            <label for="email">Email</label>
-            <input type="email" id="email">
-            <label for="status">Status</label>
-            <input type="text" id="status">
+            <form method="POST" action="{{ route('profile.update') }}">
+                @csrf
+                {{-- <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan Username Anda"> --}}
+                <div>
+                    <label for="name">Nama</label>
+                    <input type="text" id="name" name="name" value="{{ $user->name }}" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" value="{{ $user->email }}" required>
+                </div>
+                <button type="submit">Update Profile</button>
+            </form>
+
+            <form method="POST" action="{{ route('profile.delete') }}">
+                @csrf
+                <button type="submit" onclick="return confirm('Are you sure you want to delete your account?');">Delete
+                    Account</button>
+            </form>
+            {{-- <label for="status">Status</label>
+                <input type="text" id="status"> --}}
         </div>
     </div>
     <div class="footer">

@@ -176,13 +176,26 @@
             <h2>Daftar Sekarang</h2>
             <p>Belum punya akun check point? <a href="#">Masuk</a></p>
             <p>atau masuk dengan</p>
-            <form>
-                <label for="email">Email*</label>
-                <input id="email" placeholder="Masukkan Alamat Email Anda" required type="email" />
-                <label for="password">Password*</label>
-                <input id="password" placeholder="Password" required type="password" />
-                <label for="confirm-password">Konfirmasi Password*</label>
-                <input id="confirm-password" placeholder="Konfirmasi Password" required type="password" />
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                <div>
+                    <label for="name">Name</label>
+                    <input id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email*</label>
+                    <input id="email" name="email" placeholder="Masukkan Alamat Email Anda" required
+                        type="email" />
+                </div>
+                <div>
+                    <label for="password">Password*</label>
+                    <input id="password" name="password" placeholder="Password" required type="password" />
+                </div>
+                <div>
+                    <label for="password_confirmation">Konfirmasi Password*</label>
+                    <input id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi Password"
+                        required type="password" />
+                </div>
                 <button type="submit">Daftar Sekarang</button>
             </form>
             <p>atau masuk dengan sosial media</p>

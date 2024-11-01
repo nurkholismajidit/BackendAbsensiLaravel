@@ -162,18 +162,27 @@
         <div class="right-section">
             <h2>Masuk</h2>
             <p>Belum punya akun check point? Daftar dengan klik tombol di bawah ini!</p>
-            <a class="btn-primary" href="#">Daftar Sekarang</a>
+            <a href="{{ route('register') }}" class="btn-primary" href="#">Daftar Sekarang</a>
             <p>atau masuk dengan</p>
-            <div class="form-group">
-                <label for="email">Email <span style="color: red;">*</span></label>
-                <input id="email" placeholder="Masukkan Alamat Email Anda" type="email" />
-            </div>
-            <div class="form-group">
-                <label for="password">Password <span style="color: red;">*</span></label>
-                <input id="password" placeholder="Masukkan Password Anda" type="password" />
-                <i class="fas fa-eye toggle-password"></i>
-            </div>
-            <a class="btn-submit" href="#">Masuk</a>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="email">Email <span style="color: red;">*</span></label>
+                    <input id="email" name="email" placeholder="Masukkan Alamat Email Anda" type="email" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password <span style="color: red;">*</span></label>
+                    <input id="password" name="password" placeholder="Masukkan Password Anda" type="password" />
+                    <i class="fas fa-eye toggle-password"></i>
+                </div>
+                <button type="submit" class="btn-submit">Masuk</button>
+                {{-- <a class="btn-submit" href="#">Masuk</a> --}}
+            </form>
+            @if ($errors->any())
+                <script>
+                    alert("{{ $errors->first() }}"); // Menampilkan pesan kesalahan dalam alert
+                </script>
+            @endif
         </div>
     </div>
     <script>
