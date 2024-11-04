@@ -3,6 +3,8 @@
 <head>
     <title>Check Point</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMh1VSZ7/3oUe5uRXhB5x1r0fo4W+4P6Z3z4RZ2" crossorigin="anonymous">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -159,8 +161,9 @@
             <p>Profil</p>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit"
-                    style="background-color: transparent; border: none; color: #2c3e75; cursor: pointer; font-size: 18px;">Logout</button>
+                <button type="submit" class="btn btn-logout"
+                    style="background-color: transparent; border: none; color: #2c3e75; cursor: pointer; font-size: 18px;">
+                    <i class="fas fa-sign-out-alt"></i> Logout</button>
             </form>
         </div>
         <div class="content">
@@ -178,12 +181,16 @@
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" value="{{ $user->email }}" required>
                 </div>
-                <button type="submit">Update Profile</button>
+                {{-- <button type="submit">Update Profile</button> --}}
+                <button type="submit" class="btn btn-update">
+                    <i class="fas fa-user-edit"></i> Update Profile
+                </button>
             </form>
 
             <form method="POST" action="{{ route('profile.delete') }}">
                 @csrf
-                <button type="submit" onclick="return confirm('Are you sure you want to delete your account?');">Delete
+                <button type="submit" onclick="return confirm('Are you sure you want to delete your account?');"> <i
+                        class="fas fa-trash-alt"></i> Delete
                     Account</button>
             </form>
             {{-- <label for="status">Status</label>

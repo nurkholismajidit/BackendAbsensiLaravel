@@ -55,7 +55,8 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
+            width: 300px;
+            height: 550px;
             flex: 1 1 300px;
             /* Allow flexible width */
             margin: 10px;
@@ -63,19 +64,21 @@
         }
 
         .right-section h2 {
-            font-size: 20px;
-            color: #2c3e50;
+            font-size: 24px;
+            color: #364C84;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .right-section p {
-            font-size: 12px;
+            font-size: 14px;
             color: #7a7a7a;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .right-section p a {
-            color: #2c3e50;
+            color: #364C84;
             text-decoration: none;
         }
 
@@ -161,8 +164,48 @@
                 /* Adjust image size */
             }
         }
+
+        header {
+            width: 100%;
+            /* Memastikan header menutupi lebar halaman */
+            display: flex;
+            justify-content: center;
+            /* Mencentralkan logo secara horizontal */
+            padding-top: 5px;
+            /* Beri jarak dari atas halaman */
+            position: absolute;
+            top: 0;
+            /* Posisikan di atas halaman */
+        }
+
+        .center-logo {
+            width: 192px;
+            height: 45;
+            /* Sesuaikan ukuran logo */
+            height: auto;
+        }
+
+        /* Responsif untuk tablet */
+        @media (max-width: 768px) {
+            .center-logo {
+                max-width: 120px;
+                /* Ukuran lebih kecil untuk layar tablet */
+            }
+        }
+
+        /* Responsif untuk ponsel */
+        @media (max-width: 480px) {
+            .center-logo {
+                max-width: 100px;
+                /* Ukuran lebih kecil untuk layar ponsel */
+            }
+        }
     </style>
 </head>
+
+<header>
+    <img class="center-logo" src="{{ asset('images/CPLogo.png') }}" />
+</header>
 
 <body>
     <div class="container">
@@ -174,28 +217,27 @@
         </div>
         <div class="right-section">
             <h2>Daftar Sekarang</h2>
-            <p>Belum punya akun check point? <a href="#">Masuk</a></p>
+            <p>Belum punya akun check point? <a href="{{ route('login') }}">Masuk</a></p>
             <p>atau masuk dengan</p>
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('register.post') }}">
                 @csrf
-                <div>
-                    <label for="name">Name</label>
-                    <input id="name" name="name" required>
-                </div>
-                <div>
-                    <label for="email">Email*</label>
-                    <input id="email" name="email" placeholder="Masukkan Alamat Email Anda" required
-                        type="email" />
-                </div>
-                <div>
-                    <label for="password">Password*</label>
-                    <input id="password" name="password" placeholder="Password" required type="password" />
-                </div>
-                <div>
-                    <label for="password_confirmation">Konfirmasi Password*</label>
-                    <input id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi Password"
-                        required type="password" />
-                </div>
+                {{-- <div> --}}
+                <label for="name">Name</label>
+                <input id="name" name="name" required>
+                {{-- </div> --}}
+                {{-- <div> --}}
+                <label for="email">Email*</label>
+                <input id="email" name="email" placeholder="Masukkan Alamat Email Anda" required type="email" />
+                {{-- </div>
+                <div> --}}
+                <label for="password">Password*</label>
+                <input id="password" name="password" placeholder="Password" required type="password" />
+                {{-- </div>
+                <div> --}}
+                <label for="password_confirmation">Konfirmasi Password*</label>
+                <input id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi Password"
+                    required type="password" />
+                {{-- </div> --}}
                 <button type="submit">Daftar Sekarang</button>
             </form>
             <p>atau masuk dengan sosial media</p>

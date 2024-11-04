@@ -2,6 +2,7 @@
 
 <head>
     <title>Check Point</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/LCP1.png') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
@@ -45,7 +46,7 @@
         .left-section h2,
         .right-section h2 {
             font-size: 24px;
-            color: #000;
+            color: #364C84;
             margin-top: 20px;
         }
 
@@ -76,9 +77,9 @@
         }
 
         .right-section .btn-primary {
-            color: #2c3e50;
+            color: #364C84;
             background-color: #FFFDF5;
-            border: 2px solid #2c3e50;
+            border: 2px solid #364C84;
         }
 
         .right-section .btn-submit {
@@ -148,8 +149,47 @@
                 /* Adjust image size */
             }
         }
+
+        header {
+            width: 100%;
+            /* Memastikan header menutupi lebar halaman */
+            display: flex;
+            justify-content: center;
+            /* Mencentralkan logo secara horizontal */
+            padding-top: 20px;
+            /* Beri jarak dari atas halaman */
+            position: absolute;
+            top: 0;
+            /* Posisikan di atas halaman */
+        }
+
+        .center-logo {
+            width: 192px;
+            height: 45;
+            /* Sesuaikan ukuran logo */
+            height: auto;
+        }
+
+        /* Responsif untuk tablet */
+        @media (max-width: 768px) {
+            .center-logo {
+                max-width: 120px;
+                /* Ukuran lebih kecil untuk layar tablet */
+            }
+        }
+
+        /* Responsif untuk ponsel */
+        @media (max-width: 480px) {
+            .center-logo {
+                max-width: 100px;
+                /* Ukuran lebih kecil untuk layar ponsel */
+            }
+        }
     </style>
 </head>
+<header>
+    <img class="center-logo" src="{{ asset('images/CPLogo.png') }}" />
+</header>
 
 <body>
     <div class="container">

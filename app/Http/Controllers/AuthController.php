@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class RegisterController extends Controller
+class AuthController extends Controller
 {
     public function show()
     {
@@ -23,8 +25,6 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-         // Debugging
-        dd($request->all());
 
         User::create([
             'name' => $request->name,
