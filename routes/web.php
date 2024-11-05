@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\HistoryAttendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,9 @@ Route::get('/', function () {
 //Frontend
 Route::get('/login', [App\Http\Controllers\LoginController::class, 'show'])->name('show.route');
 // Route::get('/register', [App\Http\Controllers\RegisterController::class, 'show'])->name('show.route');
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('show.route');
+// Route di web.php
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profile'])->name('profile')->middleware('auth');
+// Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('show.route');
 // Post Login
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'login'])->name('login');
 
@@ -44,9 +48,14 @@ Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('pro
 //logout
 Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 //Home
-Route::get('/home', function () {
-    return view('home'); // ganti 'register' dengan nama file Blade Anda
-})->name('home');
+Route::get('/home', [AttendanceController::class, 'index'])->name('home')->middleware('auth');
+Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in')->middleware('auth');
+Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out')->middleware('auth');
+// Route::get('/home', function () {
+//     return view('home');
+// })->name('home');
+//History Attend
+Route::get('/history-attend', [HistoryAttendController::class, 'showHistoryAttend'])->name('history.attend')->middleware('auth');
 
 
 

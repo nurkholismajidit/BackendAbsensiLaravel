@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    public function profile()
+    {
+    // Mendapatkan data user yang sedang login
+    $user = Auth::user();
+
+    // Mengirim data user ke view profile
+    return view('profile', compact('user'))->with('success', 'Profile updated successfully.');
+    }
+
     public function show()
     {
         // Data yang ingin dikirim ke view

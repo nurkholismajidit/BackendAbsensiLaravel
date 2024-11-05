@@ -29,8 +29,13 @@ class LoginController extends Controller
             // Jika login berhasil, ambil user yang terautentikasi
         $user = Auth::user();
 
+        // Mengarahkan ke route 'profile' atau halaman sesuai dan menyimpan pesan sukses di session
+        return redirect()->route('profile')->with([
+            'login_success' => 'Login berhasil! Selamat datang kembali.',
+            'user' => $user // Mengirim data user jika diperlukan di halaman profile
+        ]);
         // Mengembalikan view dengan data pengguna
-        return view('profile', ['user' => $user]); // Sesuaikan nama view dan data yang ingin dikirim
+        // return view('profile', ['user' => $user])->with('login_success', true); // Sesuaikan nama view dan data yang ingin dikirim
         }
 
         return back()->withErrors([

@@ -2,6 +2,7 @@
 
 <head>
     <title>Check Point</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/LCP1.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMh1VSZ7/3oUe5uRXhB5x1r0fo4W+4P6Z3z4RZ2" crossorigin="anonymous">
@@ -165,6 +166,12 @@
                     style="background-color: transparent; border: none; color: #2c3e75; cursor: pointer; font-size: 18px;">
                     <i class="fas fa-sign-out-alt"></i> Logout</button>
             </form>
+            <form method="GET" action="{{ route('home') }}">
+                <button type="submit" class="btn btn-dashboard"
+                    style="background-color: transparent; border: none; color: #2c3e75; cursor: pointer; font-size: 18px;">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </button>
+            </form>
         </div>
         <div class="content">
             <h2>Profil Saya</h2>
@@ -175,11 +182,11 @@
                 <input type="text" id="username" placeholder="Masukkan Username Anda"> --}}
                 <div>
                     <label for="name">Nama</label>
-                    <input type="text" id="name" name="name" value="{{ $user->name }}" required>
+                    <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" required>
                 </div>
                 <div>
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" value="{{ $user->email }}" required>
+                    <input type="email" name="email" id="email" value="{{ Auth::user()->email }}" required>
                 </div>
                 {{-- <button type="submit">Update Profile</button> --}}
                 <button type="submit" class="btn btn-update">

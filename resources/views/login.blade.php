@@ -218,9 +218,17 @@
                 <button type="submit" class="btn-submit">Masuk</button>
                 {{-- <a class="btn-submit" href="#">Masuk</a> --}}
             </form>
+            <!-- Tambahkan alert untuk login berhasil -->
+            @if (session('login_success'))
+                <script>
+                    alert("{{ session('login_success') }}");
+                </script>
+            @endif
+
+            <!-- Menampilkan pesan kesalahan jika ada -->
             @if ($errors->any())
                 <script>
-                    alert("{{ $errors->first() }}"); // Menampilkan pesan kesalahan dalam alert
+                    alert("{{ $errors->first() }}");
                 </script>
             @endif
         </div>
