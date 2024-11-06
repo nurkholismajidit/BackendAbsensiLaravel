@@ -16,6 +16,7 @@ class Attendance extends Model
         'clock_out',
         'working_hours',
         'location',
+        'date',  // Menambahkan field 'date'
     ];
 
     public function user()

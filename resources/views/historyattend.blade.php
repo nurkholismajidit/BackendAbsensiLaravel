@@ -4,6 +4,8 @@
     <title>History Attend</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/LCP1.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         body {
             margin: 0;
@@ -225,8 +227,8 @@
             <li><i class="fas fa-home"></i><a href="{{ route('home') }}">Home</a></li>
             <li class="active"><i class="fas fa-book"></i><a href="#">History Attend</a></li>
             <li><i class="fas fa-chart-bar"></i><a href="#">Licensing</a></li>
-            <li><i class="fas fa-bell"></i><a href="#">Notification</a></li>
-            <li><i class="fas fa-cog"></i><a href="#">Setting</a></li>
+            <li><i class="fas fa-bell"></i><a href="{{ route('notifications.index') }}">Notification</a></li>
+            <li><i class="fas fa-cog"></i><a href="{{ route('profile') }}">Setting</a></li>
         </ul>
     </div>
     <div class="content">
@@ -238,12 +240,11 @@
             </div>
         </div>
         <div class="date-selector">
-            <i class="fas fa-chevron-left"></i>
-            <i style="color: #364C84" class="fas fa-calendar-alt"></i>
-            <span>Januari 2024</span>
-            <i class="fas fa-chevron-right"></i>
+            <i class="fas fa-calendar-alt" style="color: #364C84;"></i>
+            <input id="datepicker" type="text" placeholder="Pilih Tanggal"
+                style="border: none; background: transparent; font-size: 18px; color: #364C84;">
         </div>
-        <table>
+        <table id="attendance-table" class="display">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -255,7 +256,7 @@
             <tbody>
                 @forelse($attendances as $attendance)
                     <tr>
-                        <td class="date">{{ $attendance->created_at }}</td>
+                        <td class="date">{{ $attendance->date }}</td>
                         <td class="clock-in">{{ $attendance->clock_in }}</td>
                         <td class="clock-out">{{ $attendance->clock_out }}</td>
                         <td class="working-hours">{{ $attendance->working_hours }}</td>
@@ -268,6 +269,44 @@
             </tbody>
         </table>
     </div>
+
+    <!-- DataTables jQuery Plugin -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTables
+            const table = $('#attendance-table').DataTable({
+                "language": {
+                    "emptyTable": "Tidak ada catatan kehadiran ditemukan.",
+                    "lengthMenu": "Tampilkan _MENU_ catatan per halaman",
+                    "zeroRecords": "Tidak ditemukan catatan yang sesuai",
+                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                    "infoEmpty": "Tidak ada catatan tersedia",
+                    "infoFiltered": "(difilter dari _MAX_ total catatan)"
+                }
+            });
+
+            // Initialize Flatpickr Datepicker
+            flatpickr("#datepicker", {
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (dateStr) {
+                        filterTableByDate(dateStr);
+                    } else {
+                        table.search('').draw(); // Reset table if no date selected
+                    }
+                }
+            });
+
+            // Filter DataTables based on selected date
+            function filterTableByDate(date) {
+                table.columns(0).search(date).draw();
+            }
+        });
+    </script>
 </body>
 
 </html>

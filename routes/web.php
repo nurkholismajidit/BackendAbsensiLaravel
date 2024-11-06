@@ -51,11 +51,13 @@ Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])-
 Route::get('/home', [AttendanceController::class, 'index'])->name('home')->middleware('auth');
 Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in')->middleware('auth');
 Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out')->middleware('auth');
-// Route::get('/home', function () {
-//     return view('home');
-// })->name('home');
+//history attend
+Route::get('/notifications', [AttendanceController::class, 'indexNotifications'])->name('notifications.index')->middleware('auth');
 //History Attend
 Route::get('/history-attend', [HistoryAttendController::class, 'showHistoryAttend'])->name('history.attend')->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [AttendanceController::class, 'indexNotifications'])->name('notifications.index');
+});
 
 
 

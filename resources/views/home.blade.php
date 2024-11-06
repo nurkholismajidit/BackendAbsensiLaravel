@@ -238,8 +238,8 @@
                 <a href="{{ route('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
                 <a href="{{ route('history.attend') }}"><i class="fas fa-book"></i> History Attend</a>
                 <a href="#"><i class="fas fa-chart-bar"></i> Report</a>
-                <a href="#"><i class="fas fa-bell"></i> Notification</a>
-                <a href="#"><i class="fas fa-cog"></i> Setting</a>
+                <a href="{{ route('notifications.index') }}"><i class="fas fa-bell"></i> Notification</a>
+                <a href="{{ route('profile') }}"><i class="fas fa-cog"></i> Setting</a>
             </div>
         </div>
         <div class="content">
@@ -251,13 +251,6 @@
                 </div>
             </div>
             <div class="card">
-                {{-- <form method="POST" action="{{ route('clock.in') }}">
-                    @csrf
-                    <button type="submit" class="clock">
-                        <i class="fas fa-hand-pointer"></i>
-                        <p>CLOCK IN</p>
-                    </button>
-                </form> --}}
                 <form id="clockInForm" method="POST" action="{{ route('clock.in') }}">
                     @csrf
                     <input type="hidden" name="latitude" id="latitude">
@@ -288,6 +281,7 @@
                                         form.submit();
                                     }, function(error) {
                                         alert('Gagal mendapatkan lokasi. Pastikan GPS aktif.');
+                                        // Kirim form tanpa lokasi
                                         // Kirim form tanpa lokasi jika gagal
                                         form.submit();
                                     });
@@ -299,9 +293,36 @@
                             }
                         });
                     });
+
+                    function getLocationAndClockIn() {
+                        // Fungsi untuk menangani pengambilan lokasi dan mengirim formulir
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position) {
+                                const latitude = position.coords.latitude;
+                                const longitude = position.coords.longitude;
+
+                                // Menyimpan koordinat ke dalam field tersembunyi
+                                document.getElementById('latitude').value = latitude;
+                                document.getElementById('longitude').value = longitude;
+
+                                // Kirim form setelah menambahkan latitude dan longitude
+                                document.getElementById('clockInForm').submit();
+                            }, function(error) {
+                                alert('Gagal mendapatkan lokasi. Pastikan GPS aktif.');
+                                // Kirim form tanpa lokasi jika gagal
+                                document.getElementById('clockInForm').submit();
+                            });
+                        } else {
+                            alert('Geolocation tidak didukung oleh browser.');
+                            // Kirim form tanpa lokasi jika geolocation tidak didukung
+                            document.getElementById('clockInForm').submit();
+                        }
+                    }
                 </script>
+
                 <div class="details">
-                    <h3>{{ $attendance && $attendance->clock_in ? $attendance->clock_in->format('H:i') : '08:00' }}</h3>
+                    <h3>{{ isset($attendance) && $attendance->clock_in ? $attendance->clock_in->format('H:i') : '08:00' }}
+                    </h3>
                     <p>{{ \Carbon\Carbon::now()->format('l, F Y') }}</p>
                     <div class="info">
                         <div>
@@ -312,17 +333,12 @@
                         </div>
                         <div>
                             <i class="fas fa-clock"></i>
-                            {{-- <h4>{{ $attendance->clock_out ? $attendance->clock_out->format('H:i') : '15:44' }}</h4> --}}
                             <h4>{{ isset($attendance) && $attendance->clock_out ? $attendance->clock_out->format('H:i') : '--:--' }}
                             </h4>
                             <p>Clock out</p>
                         </div>
                         <div>
                             <i class="fas fa-check-circle"></i>
-                            {{-- <h4>{{ $attendance->clock_out && $attendance->clock_in
-                                ? $attendance->clock_out->diffInHours($attendance->clock_in) . ' hrs'
-                                : '0 hrs' }}
-                            </h4> --}}
                             <h4>{{ isset($attendance) && $attendance->clock_out && $attendance->clock_in
                                 ? $attendance->clock_out->diffInHours($attendance->clock_in) . ' hrs'
                                 : '0 hrs' }}
@@ -332,10 +348,13 @@
                     </div>
                     <div class="location">
                         <i class="fas fa-map-marker-alt"></i>
-                        <p>{{ $attendance->location ?? 'Location unavailable' }}</p>
+                        <p>{{ isset($attendance) && $attendance->location ? $attendance->location : 'Location unavailable' }}
+                        </p>
                     </div>
                 </div>
             </div>
+
+            <!-- Clock Out Card -->
             <div class="card">
                 <form method="POST" action="{{ route('clock.out') }}">
                     @csrf
@@ -363,14 +382,17 @@
                         </div>
                         <div>
                             <i class="fas fa-check-circle"></i>
-                            <h4>{{ isset($attendance) && $attendance->clock_out && $attendance->clock_in ? $attendance->clock_out->diffInHours($attendance->clock_in) . ' hrs' : '0 hrs' }}
+                            <h4>{{ isset($attendance) && $attendance->clock_out && $attendance->clock_in
+                                ? $attendance->clock_out->diffInHours($attendance->clock_in) . ' hrs'
+                                : '0 hrs' }}
                             </h4>
                             <p>Working Hr's</p>
                         </div>
                     </div>
                     <div class="location">
                         <i class="fas fa-map-marker-alt"></i>
-                        <p>{{ $attendance->location ?? 'Location unavailable' }}</p>
+                        <p>{{ isset($attendance) && $attendance->location ? $attendance->location : 'Location unavailable' }}
+                        </p>
                     </div>
                 </div>
             </div>
