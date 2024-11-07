@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\User;
+use App\Models\Licensing;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -123,5 +124,38 @@ class AttendanceController extends Controller
         $attendance->save();
 
         return redirect()->back()->with('success', 'Clock out berhasil.');
+    }
+
+    // Menampilkan form izin absensi
+    public function showForm()
+    {
+        // Ambil data user yang login
+        $user = Auth::user();
+
+        return view('licensing', compact('user'));
+    }
+
+    // Memproses form izin absensi
+    public function submitForm(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'reason' => 'required|string',
+            'note' => 'nullable|string',
+        ]);
+
+        // Simpan data ke dalam database
+        Licensing::create([
+            'user_id' => Auth::id(),
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'reason' => $request->reason,
+            'note' => $request->note,
+        ]);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('licensing.form')->with('success', 'Form izin absensi berhasil dikirim.');
     }
 }

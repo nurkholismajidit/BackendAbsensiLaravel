@@ -16,9 +16,10 @@
         }
 
         .sidebar {
-            width: 100%;
-            background-color: #2c3e75;
+            width: 250px;
+            background-color: #364C84;
             color: white;
+            height: 100vh;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -33,32 +34,32 @@
             margin: 0;
         }
 
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
+        .sidebar .menu {
+            margin-top: 50px;
         }
 
-        .sidebar ul li {
-            margin: 20px 0;
-            font-size: 18px;
+        .sidebar .menu a {
             display: flex;
             align-items: center;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 10px;
         }
 
-        .sidebar ul li i {
+        .sidebar .menu a.active {
+            background-color: #95B1EE;
+        }
+
+        .sidebar .menu a i {
             margin-right: 10px;
-        }
-
-        .sidebar ul li.active {
-            background-color: #8fa9e9;
-            padding: 10px;
-            border-radius: 10px;
         }
 
         .content {
             padding: 20px;
             box-sizing: border-box;
+            flex-grow: 1;
         }
 
         .header {
@@ -143,6 +144,66 @@
 
             .content {
                 flex-grow: 1;
+                padding-left: 20px;
+            }
+        }
+
+        /* Mobile and smaller tablet devices */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .notification {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .notification img {
+                margin-bottom: 10px;
+            }
+
+            .notification .time {
+                margin-top: 10px;
+                text-align: left;
+            }
+        }
+
+        /* Extra small screens (phones) */
+        @media (max-width: 576px) {
+            .header h2 {
+                font-size: 18px;
+            }
+
+            .header .user {
+                font-size: 14px;
+            }
+
+            .notification .text h3 {
+                font-size: 16px;
+            }
+
+            .notification .text p {
+                font-size: 14px;
+            }
+
+            .notification .time {
+                font-size: 14px;
             }
         }
     </style>
@@ -153,13 +214,14 @@
         <div class="sidebar">
             <h1>Check Point</h1>
             <p>Akses kehadiran dengan mudah</p>
-            <ul>
-                <li><i class="fas fa-home"></i>Home</li>
-                <li><i class="fas fa-book"></i>Data</li>
-                <li><i class="fas fa-chart-line"></i>Lecensing</li>
-                <li class="active"><i class="fas fa-bell"></i>Notification</li>
-                <li><i class="fas fa-cog"></i>Account</li>
-            </ul>
+            <div class="menu">
+                <a href="{{ route('home') }}"><i class="fas fa-home"></i> Home</a>
+                <a href="{{ route('history.attend') }}"><i class="fas fa-book"></i> History Attend</a>
+                <a href="#"><i class="fas fa-chart-bar"></i> Report</a>
+                <a href="{{ route('notifications.index') }}" class="active"><i class="fas fa-bell"></i> Notification</a>
+                <a href="{{ route('profile') }}"><i class="fas fa-cog"></i> Setting</a>
+                <a href="{{ route('licensing.form') }}"><i class="fas fa-key"></i> Licensing</a>
+            </div>
         </div>
         <div class="content">
             <div class="header">
@@ -167,15 +229,26 @@
                 <div class="user"><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</div>
             </div>
 
+            @php
+                $displayedMessages = [];
+            @endphp
+
+
             @foreach ($notifications as $notification)
-                <div class="notification">
-                    <img alt="User image" src="{{ asset('images/LCP1.png') }}" />
-                    <div class="text">
-                        <h3>Check Point</h3>
-                        <p>{{ $notification->message }}</p>
+                @if (!in_array($notification->message, $displayedMessages))
+                    <div class="notification">
+                        <img alt="User image" src="{{ asset('images/LCP1.png') }}" />
+                        <div class="text">
+                            <h3>Check Point</h3>
+                            <p>{{ $notification->message }}</p>
+                        </div>
+                        <div class="time">{{ $notification->created_at->timezone('Asia/Jakarta')->format('H:i A') }}
+                        </div>
                     </div>
-                    <div class="time">{{ $notification->created_at->format('H:i A') }}</div>
-                </div>
+                    @php
+                        $displayedMessages[] = $notification->message; // Tambahkan pesan yang sudah ditampilkan
+                    @endphp
+                @endif
             @endforeach
         </div>
     </div>

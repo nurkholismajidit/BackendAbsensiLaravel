@@ -58,7 +58,9 @@ Route::get('/history-attend', [HistoryAttendController::class, 'showHistoryAtten
 Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [AttendanceController::class, 'indexNotifications'])->name('notifications.index');
 });
-
+//Licensing
+Route::get('/licensing', [AttendanceController::class, 'showForm'])->name('licensing.form');
+Route::post('/licensing', [AttendanceController::class, 'submitForm'])->name('licensing.submit');
 
 
 

@@ -240,6 +240,7 @@
                 <a href="#"><i class="fas fa-chart-bar"></i> Report</a>
                 <a href="{{ route('notifications.index') }}"><i class="fas fa-bell"></i> Notification</a>
                 <a href="{{ route('profile') }}"><i class="fas fa-cog"></i> Setting</a>
+                <a href="{{ route('licensing.form') }}"><i class="fas fa-key"></i> Licensing</a>
             </div>
         </div>
         <div class="content">

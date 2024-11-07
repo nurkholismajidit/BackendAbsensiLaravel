@@ -17,7 +17,7 @@
         /* Sidebar style */
         .sidebar {
             width: 250px;
-            background-color: #2C3E70;
+            background-color: #364C84;
             color: white;
             padding: 20px;
             box-sizing: border-box;
@@ -226,9 +226,10 @@
         <ul>
             <li><i class="fas fa-home"></i><a href="{{ route('home') }}">Home</a></li>
             <li class="active"><i class="fas fa-book"></i><a href="#">History Attend</a></li>
-            <li><i class="fas fa-chart-bar"></i><a href="#">Licensing</a></li>
+            <li><i class="fas fa-chart-bar"></i><a href="#">Report</a></li>
             <li><i class="fas fa-bell"></i><a href="{{ route('notifications.index') }}">Notification</a></li>
             <li><i class="fas fa-cog"></i><a href="{{ route('profile') }}">Setting</a></li>
+            <li><i class="fas fa-key"></i><a href="{{ route('licensing.form') }}">Licensing</a></li>
         </ul>
     </div>
     <div class="content">
